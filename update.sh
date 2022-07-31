@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-cd /srv/http
+cd /srv/laravel/the-mega-site
 git stash
 git pull
 git stash pop
