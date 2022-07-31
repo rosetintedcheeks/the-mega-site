@@ -67,11 +67,12 @@ Route::post('/sounds/upload', [SoundsController::class, 'upload']);
 Route::post('/sounds/delete', [SoundsController::class, 'delete']);
 Route::post('/sounds/editCommandName', [SoundsController::class, 'editCommandName']);
 
-Route::get('/torrents', function() {
-    return view('torrents.index');
-})->name('torrents.index');
-Route::post('/torrents/search', [TorrentController::class, 'doSearch']);
-Route::post('/torrents/download', [TorrentController::class, 'downloadLink']);
+Route::get('/torrent', function() {
+    return view('torrent.index');
+})->name('torrent.index');
+Route::post('/torrent/search', [TorrentController::class, 'doSearch']);
+Route::post('/torrent/download', [TorrentController::class, 'downloadLink']);
+Route::post('/torrent/upload', [TorrentController::class, 'uploadTorrent']);
 
 
 Route::get('/auth/redirect', function () {

@@ -76,6 +76,7 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
         public_path('remote') => storage_path('app/remote'),
+        public_path('torrents') => storage_path('app/torrents'),
     ],
 
 ];

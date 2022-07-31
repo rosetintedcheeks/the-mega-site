@@ -6,6 +6,7 @@ use App\Models\Torrent;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use BitTorrent;
+use Illuminate\Support\Facades\Storage;
 use phpseclib\Net\SSH2;
 use phpseclib3\Crypt\PublicKeyLoader;
 
@@ -48,11 +49,12 @@ class TorrentController extends Controller
 		return $this->downloadTorrent($request, $torr->name, $torr->url);
 	}
 
-	public function uploadTorrent(Request $request ) {
-		
+	public function uploadTorrent(Request $request) {
+		$path = $request->file('torrentFile')->storePublicly('torrents');
+		$this->downloadTorrent($request, $path);
 	}
 
-	public function downloadTorrent(Request $request, String $torr_name, String $torr_url = "", String $torrPath = "") {
+	public function downloadTorrent(Request $request, String $torrUrl = "") {
 		$mediaType = $request->post('media_type');
 		$mediaName = $request->post('media_name');
 		$ssh = new SSH2('rosetintedcheeks.com');
@@ -64,9 +66,8 @@ class TorrentController extends Controller
 		$toFolder = null;
 		$fileLinkFolder = null;
 		if($mediaType === "anime") {
-			$toFolder = '/home/oaks/watch2/';
-			//$fileLinkFolder = '/home/oaks/linked/Anime/';
-			$fileLinkFolder = '/home/oaks/watch2/';
+			$toFolder = '/home/oaks/watch/';
+			$fileLinkFolder = '/home/oaks/linked/Anime/';
 		}
 		if($mediaType === "TV" || $mediaType === "movie") {
 			$toFolder = '/home/oaks/private/watch/start/';
@@ -77,22 +78,48 @@ class TorrentController extends Controller
 				$fileLinkFolder = '/home/oaks/linked/OtherMovies/';
 			}
 		}
-		$torrFileName = str_replace(' ', '-', $torr_name) . '.torrent';
-		$torrPath = $toFolder . $torrFileName;
+		//$torrFileName = str_replace(' ', '-', $torr_name) . '.torrent';
 		$linkPath = $fileLinkFolder . $mediaName;
 		if(is_null($toFolder)) return;
-		$localTorrPath = '/home/oaks/watch2/' . $torrFileName;
-		if(!empty($torr_url)) {
-			$ssh->exec("wget -o " . escapeshellarg($torrPath) . " " . escapeshellarg($torr_url));
-			copy($torr_url, $localTorrPath);
+		//$localTorrPath = '/home/oaks/watch2/' . $torrFileName;
+		if(!empty($torrUrl)) {
+			//$ssh->exec("wget -o " . escapeshellarg($torrPath) . " https://bot.rosetintedcheeks.com/" . escapeshellarg($torrUrl));
+			$res = $ssh->exec("wget -P " . escapeshellarg($toFolder) . " ". escapeshellarg("https://bot.rosetintedcheeks.com/" . $torrUrl));
+			error_log($res);
 		}
-		$decodedFile = $this->decoder->decodeFile($localTorrPath);
+		$decodedFile = $this->decoder->decodeFile($torrUrl);
 		$mediaFilePath = '';
-		if($mediaType === "TV" || $mediaType === "movie") {
-			$mediaFileName = $decodedFile['info']['name'];
-			$mediaFilePath = '/home/oaks/private/download/' . $mediaFileName;
-			$ssh->exec("ln -sf " . escapeshellarg($mediaFilePath) . " " . escapeshellarg($linkPath . $mediaFileName));
+		if(isset($decodedFile['info']['files'])) {
+			$filesArray = $decodedFile['info']['files'];
+			sort($filesArray);
+		} else {
+			$filesArray = array($decodedFile['info']['file']);
 		}
-		return redirect(route('torrents.index'));
+		$inc = 0;
+		$res = $ssh->exec("mkdir -p " . escapeshellarg($linkPath));
+		error_log($res);
+		foreach($filesArray as $file){
+			if($mediaType === "anime") {
+				$mediaFileName = implode('/', $file['path']);
+				$mediaFilePath = '/home/oaks/ADTorrents/' . $mediaFileName;
+				$season = $request->post('season');
+				$suffix = explode('.', $mediaFileName);
+				$suffix = end($suffix);
+				if(empty($season)) $season = '1';
+				if($request->post('rename') == 'yes') {
+					$res = $ssh->exec("ln -sf " . escapeshellarg($mediaFilePath) . " " . escapeshellarg($linkPath . '/s' . $season . 'e' . ++$inc . '.' . $suffix));
+				} else {
+					$res = $ssh->exec("ln -sf " . escapeshellarg($mediaFilePath) . " " . escapeshellarg($linkPath . '/' . $mediaFileName));
+				}
+				error_log($res);
+			}
+			else if($mediaType === "TV" || $mediaType === "movie") {
+				$mediaFileName = $decodedFile['info']['name'];
+				$mediaFilePath = '/home/oaks/private/download/' . $mediaFileName;
+				$res = $ssh->exec("ln -sf " . escapeshellarg($mediaFilePath) . " " . escapeshellarg($linkPath . '/' . $mediaFileName));
+				error_log($res);
+			}
+		}
+		redirect('/torrent');
 	}
 }

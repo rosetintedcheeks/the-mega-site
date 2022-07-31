@@ -8,7 +8,7 @@
         <input type="text" name="name">
         <button type="submit">Submit</button>
     </form>
-    <div id="status-button"><a class="btn btn-secondary" target="_blank" href="https://rosetintedcheeks.com/rt">Torrent status</a></div>
+    <div id="status-button"><button type="button" class="btn btn-primary otherDownloadBtn">Download</button><a class="btn btn-secondary" target="_blank" href="https://rosetintedcheeks.com/rt">Torrent status</a></div>
     <div id="result" class="row"></div>
     <style>
         .card-img-top::after {
@@ -84,6 +84,9 @@ $(document).ready(function() {
     $('#closeBtn').click(function() {
         $('#myModal').modal('hide');
     });
+    $('.otherDownloadBtn').click(function() {
+        $('#downloadModal').modal('show');
+    });
 });
 
 </script>
@@ -92,7 +95,7 @@ $(document).ready(function() {
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-    <form method="POST" action="/torrents/download">
+    <form method="POST" action="/torrent/upload" enctype="multipart/form-data">
         @csrf
       <div class="modal-header">
         <h5 class="modal-title" id="downloadModalLabel">Download Torrent</h5>
@@ -120,10 +123,37 @@ $(document).ready(function() {
                     Movie
                 </label>
             </div>
+            <br>
+            <div>
+                Rename?
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="rename" id="renameYes" value="yes" required>
+                <label class="form-check-label" for="renameYes">
+                    Yes
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="rename" id="renameNo" value="no" required>
+                <label class="form-check-label" for="renameNo">
+                    No
+                </label>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="media_name">Season</label>
+                <input type="text" class="form-control" id="mediaNameInput" aria-describedby="mediaName" name="season">
+                <small id="emailHelp" class="form-text text-muted">What season?</small>
+            </div>
+            <br>
             <div class="form-group">
                 <label for="media_name">Media Name</label>
                 <input type="text" class="form-control" id="mediaNameInput" aria-describedby="mediaName" name="media_name">
                 <small id="emailHelp" class="form-text text-muted">Write the name of the show/movie</small>
+            </div>
+            <div class="form-group">
+                <label for="torrentFile">File</label>
+                <input type="file" name="torrentFile" id="torrentFile">
             </div>
       </div>
       <div class="modal-footer">
