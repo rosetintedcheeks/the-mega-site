@@ -15,3 +15,6 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+public/remote
+public/torrents
+routes/dev.php
