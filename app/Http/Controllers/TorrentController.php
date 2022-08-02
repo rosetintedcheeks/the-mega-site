@@ -16,7 +16,7 @@ class TorrentController extends Controller
 	private $decoder;
 
 	public function __construct(BitTorrent\Decoder $decoder) {
-		$this->decoder = $decoder; 
+		$this->decoder = $decoder;
 	}
 	public function doSearch(Request $request) {
 		$client = new Client(['base_uri' => 'https://blutopia.xyz']);
@@ -58,7 +58,7 @@ class TorrentController extends Controller
 		$mediaType = $request->post('media_type');
 		$mediaName = $request->post('media_name');
 		$ssh = new SSH2('rosetintedcheeks.com');
-		$key = PublicKeyLoader::load(file_get_contents('/srv/http/storage/rtintedc'));
+		$key = PublicKeyLoader::load(file_get_contents('/srv/the-mega-site/storage/rtintedc'));
 
 		if (!$ssh->login('oaks', $key)) {
 			throw new \Exception('Login failed');
