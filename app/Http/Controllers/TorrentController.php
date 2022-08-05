@@ -93,7 +93,7 @@ class TorrentController extends Controller
 			$filesArray = $decodedFile['info']['files'];
 			sort($filesArray);
 		} else {
-			$filesArray = array($decodedFile['info']['file']);
+			$filesArray = array($decodedFile['info']['name']);
 		}
 		$inc = 0;
 		$res = $ssh->exec("mkdir -p " . escapeshellarg($linkPath));
