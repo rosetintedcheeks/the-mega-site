@@ -90,26 +90,24 @@ class TorrentController extends Controller
 			$res = $ssh->exec("wget -P " . escapeshellarg($toFolder) . " ". escapeshellarg($torrUrl));
 			error_log($res);
 		}
-        $torrFile = explode('/', $torrUrl);
-        $torrFile = end($torrFile);
-		$decodedFile = $this->decoder->decodeFile($torrFile);
+        $torrent = file_get_contents($torrUrl);
+		$decodedFile = $this->decoder->decode($torrent);
 		$mediaFilePath = '';
 		if(isset($decodedFile['info']['files'])) {
 			$filesArray = $decodedFile['info']['files'];
 			sort($filesArray);
 		} else {
-			$filesArray = array($decodedFile['info']['name']);
+			$filesArray = array('path' => $decodedFile['info']['name']);
 		}
 		$res = $ssh->exec("mkdir -p " . escapeshellarg($linkPath));
 		error_log($res);
 		foreach($filesArray as $file){
+            $mediaFileName = implode('/', $file['path']);
 			if($mediaType === "anime") {
-				$mediaFileName = implode('/', $file['path']);
 				$mediaFilePath = '/home/oaks/ADTorrents/' . $mediaFileName;
 				error_log($res);
 			}
 			else if($mediaType === "TV" || $mediaType === "movie") {
-				$mediaFileName = $decodedFile['info']['name'];
 				$mediaFilePath = '/home/oaks/private/download/' . $mediaFileName;
 			}
             $res = $ssh->exec("/home/oaks/linktv/rename.sh" .
