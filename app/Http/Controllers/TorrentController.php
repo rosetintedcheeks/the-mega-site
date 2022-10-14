@@ -99,11 +99,11 @@ class TorrentController extends Controller
                 $file['path'] = array_intersect([$decodedFile['info']['name']], $file['path']);
                 return $file;
             }, $filesArray);
-            error_log(print_r($filesArray), true);
 			sort($filesArray);
 		} else {
-			$filesArray = array('path' => $decodedFile['info']['name']);
+			$filesArray = [['path' => $decodedFile['info']['name']]];
 		}
+        error_log(print_r($filesArray), true);
 		$res = $ssh->exec("mkdir -p " . escapeshellarg($linkPath));
 		error_log($res);
 		foreach($filesArray as $file){
