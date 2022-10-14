@@ -96,23 +96,20 @@ class TorrentController extends Controller
 		if(isset($decodedFile['info']['files'])) {
 			$filesArray = $decodedFile['info']['files'];
             $filesArray = array_map(function ($file) use ($decodedFile){
-                $file['path'] = array_intersect([$decodedFile['info']['name']], $file['path']);
-                return $file;
+                return implode('/', array_intersect([$decodedFile['info']['name']], $file['path']));
             }, $filesArray);
-			sort($filesArray);
 		} else {
-			$filesArray = [['path' => $decodedFile['info']['name']]];
+			$filesArray = [$decodedFile['info']['name']];
 		}
         error_log(print_r($filesArray, true));
 		$res = $ssh->exec("mkdir -p " . escapeshellarg($linkPath));
 		error_log($res);
 		foreach($filesArray as $file){
-            $mediaFileName = implode('/', $file['path']);
 			if($mediaType === "anime") {
-				$mediaFilePath = '/home/oaks/ADTorrents/' . $mediaFileName;
+				$mediaFilePath = '/home/oaks/ADTorrents/' . $file;
 			}
 			else if($mediaType === "TV" || $mediaType === "movie") {
-				$mediaFilePath = '/home/oaks/private/download/' . $mediaFileName;
+				$mediaFilePath = '/home/oaks/private/download/' . $file;
 			}
 			$command = "/home/oaks/linktv/rename.sh" .
                 " -l " . escapeshellarg($fileLinkFolder) .
