@@ -99,6 +99,7 @@ class TorrentController extends Controller
                 $file['path'] = array_intersect([$decodedFile['info']['name']], $file['path']);
                 return $file;
             }, $filesArray);
+            error_log(print_r($filesArray), true);
 			sort($filesArray);
 		} else {
 			$filesArray = array('path' => $decodedFile['info']['name']);
