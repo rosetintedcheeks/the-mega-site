@@ -52,7 +52,7 @@ class TorrentController extends Controller
 	public function uploadTorrent(Request $request) {
 		$path = $request->file('torrentFile')->storePublicly('torrents');
         $path = "https://bot.rosetintedcheeks.com/" . $path;
-		$this->downloadTorrent($request, $path);
+		return $this->downloadTorrent($request, $path);
 	}
 
 	public function downloadTorrent(Request $request, String $torrUrl = "") {
@@ -105,18 +105,19 @@ class TorrentController extends Controller
             $mediaFileName = implode('/', $file['path']);
 			if($mediaType === "anime") {
 				$mediaFilePath = '/home/oaks/ADTorrents/' . $mediaFileName;
-				error_log($res);
 			}
 			else if($mediaType === "TV" || $mediaType === "movie") {
 				$mediaFilePath = '/home/oaks/private/download/' . $mediaFileName;
 			}
-            $res = $ssh->exec("/home/oaks/linktv/rename.sh" .
+			$command = "/home/oaks/linktv/rename.sh" .
                 " -l " . escapeshellarg($fileLinkFolder) .
                 " -n " . escapeshellarg($mediaName) .
                 " -s " . escapeshellarg($season) .
-                " " . escapeshellarg($mediaFilePath));
+                " " . escapeshellarg($mediaFilePath);
+            error_log($command);
+			$res = $ssh->exec($command);
             error_log($res);
 		}
-		redirect()->route('torrent.index');
+		return redirect()->route('torrent.index');
 	}
 }
