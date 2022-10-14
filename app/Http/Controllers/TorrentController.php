@@ -82,7 +82,7 @@ class TorrentController extends Controller
 			}
 		}
 		//$torrFileName = str_replace(' ', '-', $torr_name) . '.torrent';
-		$linkPath = $fileLinkFolder . $mediaName;
+		$linkPath = $fileLinkFolder . '/' . $mediaName;
 		if(is_null($toFolder)) return;
 		//$localTorrPath = '/home/oaks/watch2/' . $torrFileName;
 		if(!empty($torrUrl)) {
