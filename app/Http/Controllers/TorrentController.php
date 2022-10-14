@@ -46,17 +46,20 @@ class TorrentController extends Controller
 		$linkId = $request->post('link_id');
 		$torr = Torrent::find($linkId);
 		if(is_null($torr)) return; // Don't know why this would happen xd
-		return $this->downloadTorrent($request, $torr->name, $torr->url);
+		return $this->downloadTorrent($request, $torr->url);
 	}
 
 	public function uploadTorrent(Request $request) {
 		$path = $request->file('torrentFile')->storePublicly('torrents');
+        $path = "https://bot.rosetintedcheeks.com/" . $path;
 		$this->downloadTorrent($request, $path);
 	}
 
 	public function downloadTorrent(Request $request, String $torrUrl = "") {
 		$mediaType = $request->post('media_type');
 		$mediaName = $request->post('media_name');
+		$season = $request->post('season');
+        if(empty($season)) $season = '1';
 		$ssh = new SSH2('rosetintedcheeks.com');
 		$key = PublicKeyLoader::load(file_get_contents('/srv/the-mega-site/storage/rtintedc'));
 
@@ -84,7 +87,7 @@ class TorrentController extends Controller
 		//$localTorrPath = '/home/oaks/watch2/' . $torrFileName;
 		if(!empty($torrUrl)) {
 			//$ssh->exec("wget -o " . escapeshellarg($torrPath) . " https://bot.rosetintedcheeks.com/" . escapeshellarg($torrUrl));
-			$res = $ssh->exec("wget -P " . escapeshellarg($toFolder) . " ". escapeshellarg("https://bot.rosetintedcheeks.com/" . $torrUrl));
+			$res = $ssh->exec("wget -P " . escapeshellarg($toFolder) . " ". escapeshellarg($torrUrl));
 			error_log($res);
 		}
 		$decodedFile = $this->decoder->decodeFile($torrUrl);
@@ -95,30 +98,24 @@ class TorrentController extends Controller
 		} else {
 			$filesArray = array($decodedFile['info']['name']);
 		}
-		$inc = 0;
 		$res = $ssh->exec("mkdir -p " . escapeshellarg($linkPath));
 		error_log($res);
 		foreach($filesArray as $file){
 			if($mediaType === "anime") {
 				$mediaFileName = implode('/', $file['path']);
 				$mediaFilePath = '/home/oaks/ADTorrents/' . $mediaFileName;
-				$season = $request->post('season');
-				$suffix = explode('.', $mediaFileName);
-				$suffix = end($suffix);
-				if(empty($season)) $season = '1';
-				if($request->post('rename') == 'yes') {
-					$res = $ssh->exec("ln -sf " . escapeshellarg($mediaFilePath) . " " . escapeshellarg($linkPath . '/s' . $season . 'e' . ++$inc . '.' . $suffix));
-				} else {
-					$res = $ssh->exec("ln -sf " . escapeshellarg($mediaFilePath) . " " . escapeshellarg($linkPath . '/' . $mediaFileName));
-				}
 				error_log($res);
 			}
 			else if($mediaType === "TV" || $mediaType === "movie") {
 				$mediaFileName = $decodedFile['info']['name'];
 				$mediaFilePath = '/home/oaks/private/download/' . $mediaFileName;
-				$res = $ssh->exec("ln -sf " . escapeshellarg($mediaFilePath) . " " . escapeshellarg($linkPath . '/' . $mediaFileName));
-				error_log($res);
 			}
+            $res = $ssh->exec("/home/oaks/linktv/rename.sh" .
+                " -l " . escapeshellarg($fileLinkFolder) .
+                " -n " . escapeshellarg($mediaName) .
+                " -s " . escapeshellarg($season) .
+                " " . escapeshellarg($mediaFilePath));
+            error_log($res);
 		}
 		redirect('/torrent');
 	}
