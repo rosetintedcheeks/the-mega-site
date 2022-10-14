@@ -90,7 +90,9 @@ class TorrentController extends Controller
 			$res = $ssh->exec("wget -P " . escapeshellarg($toFolder) . " ". escapeshellarg($torrUrl));
 			error_log($res);
 		}
-		$decodedFile = $this->decoder->decodeFile($torrUrl);
+        $torrFile = explode('/', $torrUrl);
+        $torrFile = end($torrFile);
+		$decodedFile = $this->decoder->decodeFile($torrFile);
 		$mediaFilePath = '';
 		if(isset($decodedFile['info']['files'])) {
 			$filesArray = $decodedFile['info']['files'];
