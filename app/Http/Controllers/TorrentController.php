@@ -70,15 +70,15 @@ class TorrentController extends Controller
 		$fileLinkFolder = null;
 		if($mediaType === "anime") {
 			$toFolder = '/home/oaks/watch/';
-			$fileLinkFolder = '/home/oaks/linked/Anime/';
+			$fileLinkFolder = '/home/oaks/linked/Anime';
 		}
 		if($mediaType === "TV" || $mediaType === "movie") {
 			$toFolder = '/home/oaks/private/watch/start/';
 			if($mediaType === "TV") {
-				$fileLinkFolder = '/home/oaks/linked/OtherTV/';
+				$fileLinkFolder = '/home/oaks/linked/OtherTV';
 			}
 			if($mediaType === "movie") {
-				$fileLinkFolder = '/home/oaks/linked/OtherMovies/';
+				$fileLinkFolder = '/home/oaks/linked/OtherMovies';
 			}
 		}
 		//$torrFileName = str_replace(' ', '-', $torr_name) . '.torrent';
@@ -117,6 +117,6 @@ class TorrentController extends Controller
                 " " . escapeshellarg($mediaFilePath));
             error_log($res);
 		}
-		redirect('/torrent');
+		redirect()->route('torrent.index');
 	}
 }
