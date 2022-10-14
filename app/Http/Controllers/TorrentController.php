@@ -96,7 +96,7 @@ class TorrentController extends Controller
 		if(isset($decodedFile['info']['files'])) {
 			$filesArray = $decodedFile['info']['files'];
             $filesArray = array_map(function ($file) use ($decodedFile){
-                return $file['path'] = array_intersect($decodedFile['info']['name'], $file['path']);
+                return $file['path'] = array_intersect([$decodedFile['info']['name']], $file['path']);
             }, $filesArray);
 			sort($filesArray);
 		} else {
