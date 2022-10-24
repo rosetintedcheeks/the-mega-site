@@ -7,9 +7,12 @@
         @csrf
         <input type="text" name="name">
         <br>
+        <br>
         <label for="imdb">IMDB id</label><input type="text" name="imdb">
         <br>
+        <br>
         <button type="submit">Submit</button>
+        <br>
         <br>
     </form>
     <div id="status-button"><button type="button" class="btn btn-primary otherDownloadBtn">Download</button><!-- doesn't work <a class="btn btn-secondary" target="_blank" href="https://rosetintedcheeks.com/rt">Torrent status</a>--></div>
