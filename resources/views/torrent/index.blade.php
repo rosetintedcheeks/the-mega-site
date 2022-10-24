@@ -6,6 +6,7 @@
     <form method="POST" id="torrent-search" action="/torrent/search">
         @csrf
         <input type="text" name="name">
+        <label for="imdb">IMDB id</label><input type="text" name="imdb">
         <button type="submit">Submit</button>
     </form>
     <div id="status-button"><button type="button" class="btn btn-primary otherDownloadBtn">Download</button><!-- doesn't work <a class="btn btn-secondary" target="_blank" href="https://rosetintedcheeks.com/rt">Torrent status</a>--></div>
