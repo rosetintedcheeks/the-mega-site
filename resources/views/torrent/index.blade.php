@@ -58,7 +58,7 @@ $("#torrent-search").submit(function(e) {
                 const linkId = listItem.attributes.link_id;
                 resultHTML += '<div class="col mb-1">'
                     + '<div class="card" style="width: 18rem;">'
-                        + '<img class="card-img-top" style="width:92px; margin: auto;" src="' + poster + '">'
+                        //+ '<img class="card-img-top" style="width:92px; margin: auto;" src="' + poster + '">'
                         + '<div class="card-body">'
                             + '<h5 class="card-title">' + name + '</h5>'
                             + '<p class="card-text">'
