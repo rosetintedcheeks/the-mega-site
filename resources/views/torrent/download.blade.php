@@ -3,7 +3,7 @@
 @section('content')
 @include('menu')
 <div class="container">
-    <form method="POST" id="torrent-search" action="/torrents/search">
+    <form method="POST" id="torrent-search" action="/torrent/search">
         @csrf
         <input type="text" name="name">
         <button type="submit">Submit</button>
@@ -27,7 +27,7 @@ $("#torrent-search").submit(function(e) {
 
     var form = $(this);
     var actionUrl = form.attr('action');
-    
+
     $.ajax({
         type: "POST",
         url: actionUrl,
@@ -35,7 +35,7 @@ $("#torrent-search").submit(function(e) {
         success: function(data)
         {
             const dataObject = JSON.parse(data);
-            
+
 
             var resultHTML = '';
             dataObject.data.forEach(function(listItem){
@@ -49,7 +49,7 @@ $("#torrent-search").submit(function(e) {
                         + '<div class="card-body">'
                             + '<h5 class="card-title">' + name + '</h5>'
                             + '<p class="card-text">'
-                            + 'Seeders: ' + seeders 
+                            + 'Seeders: ' + seeders
                             + '</p>'
                         + '<a href="/torrents/download?link_id=' + linkId +'" class="btn btn-primary">Go somewhere</a>'
                         + '</div>'
@@ -59,7 +59,7 @@ $("#torrent-search").submit(function(e) {
             $('#result').html(resultHTML);
         }
     });
-    
+
 });
 </script>
 @endsection
