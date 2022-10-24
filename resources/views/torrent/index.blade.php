@@ -22,6 +22,9 @@
         #torrent-search {
             display: inline-block;
         }
+        #torrent-search > *{
+            float: left;
+        }
         #status-button {
             width:200px;
             float: right;
