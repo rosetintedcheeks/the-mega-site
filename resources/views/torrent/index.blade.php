@@ -74,6 +74,7 @@ $("#torrent-search").submit(function(e) {
                 $('#downloadModal').modal('show');
                 $('#linkField').val($(this).data('link-id'));
                 $('#downloadModelForm').attr("action", "/torrent/download");
+                $('#anime-option').display("none");
             });
         }
     });
@@ -106,7 +107,7 @@ $(document).ready(function() {
       </div>
       <div class="modal-body">
             <input id="linkField" type="hidden" name="link_id" value="">
-            <div class="form-check">
+            <div class="form-check" id="anime-option">
                 <input class="form-check-input" type="radio" name="media_type" id="typeAnime" value="anime" required>
                 <label class="form-check-label" for="typeAnime">
                     Anime
