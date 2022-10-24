@@ -131,13 +131,12 @@ $(document).ready(function() {
             <div class="form-group">
                 <label for="media_name">Media Name</label>
                 <input type="text" class="form-control" id="mediaNameInput" aria-describedby="mediaName" name="media_name">
-                <small id="emailHelp" class="form-text text-muted">Write the name of the show/movie</small>
+                <small id="emailHelp" class="form-text text-muted">Name of the show/movie</small>
             </div>
             <br>
             <div class="form-group">
                 <label for="media_name">Season</label>
                 <input type="text" class="form-control" id="mediaNameInput" aria-describedby="mediaName" name="season">
-                <small id="emailHelp" class="form-text text-muted">What season?</small>
             </div>
             <div class="form-group" id="file-upload">
                 <label for="torrentFile">File</label>
