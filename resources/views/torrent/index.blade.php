@@ -8,7 +8,7 @@
         <input type="text" name="name">
         <br>
         <br>
-        <label for="imdb">IMDB id</label><input type="text" name="imdb">
+        <label for="imdb">IMDB id: </label><input type="text" name="imdb">
         <br>
         <br>
         <button type="submit">Submit</button>
