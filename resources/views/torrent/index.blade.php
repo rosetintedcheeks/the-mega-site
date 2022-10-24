@@ -74,7 +74,7 @@ $("#torrent-search").submit(function(e) {
                 $('#downloadModal').modal('show');
                 $('#linkField').val($(this).data('link-id'));
                 $('#downloadModelForm').attr("action", "/torrent/download");
-                $('#anime-option').display("none");
+                $('#anime-option').css("display", "none");
             });
         }
     });
