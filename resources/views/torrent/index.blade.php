@@ -75,6 +75,7 @@ $("#torrent-search").submit(function(e) {
                 $('#linkField').val($(this).data('link-id'));
                 $('#downloadModelForm').attr("action", "/torrent/download");
                 $('#anime-option').css("display", "none");
+                $('#file-upload').css("display", "none");
             });
         }
     });
@@ -125,19 +126,20 @@ $(document).ready(function() {
                     Movie
                 </label>
             </div>
-            <br>
-            <div class="form-group">
-                <label for="media_name">Season</label>
-                <input type="text" class="form-control" id="mediaNameInput" aria-describedby="mediaName" name="season">
-                <small id="emailHelp" class="form-text text-muted">What season?</small>
-            </div>
+
             <br>
             <div class="form-group">
                 <label for="media_name">Media Name</label>
                 <input type="text" class="form-control" id="mediaNameInput" aria-describedby="mediaName" name="media_name">
                 <small id="emailHelp" class="form-text text-muted">Write the name of the show/movie</small>
             </div>
+            <br>
             <div class="form-group">
+                <label for="media_name">Season</label>
+                <input type="text" class="form-control" id="mediaNameInput" aria-describedby="mediaName" name="season">
+                <small id="emailHelp" class="form-text text-muted">What season?</small>
+            </div>
+            <div class="form-group" id="file-upload">
                 <label for="torrentFile">File</label>
                 <input type="file" name="torrentFile" id="torrentFile">
             </div>
