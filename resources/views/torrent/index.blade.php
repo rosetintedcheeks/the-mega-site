@@ -6,8 +6,11 @@
     <form method="POST" id="torrent-search" action="/torrent/search">
         @csrf
         <input type="text" name="name">
+        <br>
         <label for="imdb">IMDB id</label><input type="text" name="imdb">
+        <br>
         <button type="submit">Submit</button>
+        <br>
     </form>
     <div id="status-button"><button type="button" class="btn btn-primary otherDownloadBtn">Download</button><!-- doesn't work <a class="btn btn-secondary" target="_blank" href="https://rosetintedcheeks.com/rt">Torrent status</a>--></div>
     <div id="result" class="row"></div>
@@ -21,9 +24,6 @@
         }
         #torrent-search {
             display: inline-block;
-        }
-        #torrent-search > *{
-            float: left;
         }
         #status-button {
             width:200px;
