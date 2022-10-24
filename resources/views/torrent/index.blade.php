@@ -3,7 +3,7 @@
 @section('content')
 @include('menu')
 <div class="container">
-    <form method="POST" id="torrent-search" action="/torrents/search">
+    <form method="POST" id="torrent-search" action="/torrent/search">
         @csrf
         <input type="text" name="name">
         <button type="submit">Submit</button>
