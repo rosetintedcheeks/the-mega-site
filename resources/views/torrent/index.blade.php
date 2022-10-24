@@ -8,7 +8,7 @@
         <input type="text" name="name">
         <button type="submit">Submit</button>
     </form>
-    <div id="status-button"><button type="button" class="btn btn-primary otherDownloadBtn">Download</button><a class="btn btn-secondary" target="_blank" href="https://rosetintedcheeks.com/rt">Torrent status</a></div>
+    <div id="status-button"><button type="button" class="btn btn-primary otherDownloadBtn">Download</button><!-- doesn't work <a class="btn btn-secondary" target="_blank" href="https://rosetintedcheeks.com/rt">Torrent status</a>--></div>
     <div id="result" class="row"></div>
     <style>
         .card-img-top::after {
@@ -73,6 +73,7 @@ $("#torrent-search").submit(function(e) {
             $('.downloadBtn').click(function() {
                 $('#downloadModal').modal('show');
                 $('#linkField').val($(this).data('link-id'));
+                $('#downloadModelForm').attr("action", "/torrent/download");
             });
         }
     });
@@ -95,7 +96,7 @@ $(document).ready(function() {
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-    <form method="POST" action="/torrent/upload" enctype="multipart/form-data">
+    <form method="POST" id="downloadModelForm" action="/torrent/upload" enctype="multipart/form-data">
         @csrf
       <div class="modal-header">
         <h5 class="modal-title" id="downloadModalLabel">Download Torrent</h5>
