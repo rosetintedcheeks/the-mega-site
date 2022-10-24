@@ -5,7 +5,7 @@
 <div class="container">
     <form method="POST" id="torrent-search" action="/torrent/search">
         @csrf
-        <input type="text" name="name">
+        <input type="text" name="name" placeholder="Search">
         <br>
         <br>
         <label for="imdb">IMDB id:&nbsp;</label><input type="text" name="imdb">
