@@ -83,7 +83,7 @@ $("#torrent-search").submit(function(e) {
 $(document).ready(function() {
     $('#downloadModal').modal();
     $('button.close').click(function() {
-        $('#myModal').modal('hide');
+        $('#downloadModal').modal('hide');
     });
     $('.otherDownloadBtn').click(function() {
         $('#downloadModal').modal('show');
