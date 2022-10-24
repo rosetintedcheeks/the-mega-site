@@ -40,7 +40,7 @@ $("#torrent-search").submit(function(e) {
 
     var form = $(this);
     var actionUrl = form.attr('action');
-    
+
     $.ajax({
         type: "POST",
         url: actionUrl,
@@ -48,7 +48,7 @@ $("#torrent-search").submit(function(e) {
         success: function(data)
         {
             const dataObject = JSON.parse(data);
-            
+
 
             var resultHTML = '';
             dataObject.data.forEach(function(listItem){
@@ -62,7 +62,7 @@ $("#torrent-search").submit(function(e) {
                         + '<div class="card-body">'
                             + '<h5 class="card-title">' + name + '</h5>'
                             + '<p class="card-text">'
-                            + 'Seeders: ' + seeders 
+                            + 'Seeders: ' + seeders
                             + '</p>'
                         + '<button type="button" data-link-id="' + linkId +'" class="btn btn-primary downloadBtn">Download</button>'
                         + '</div>'
@@ -76,7 +76,7 @@ $("#torrent-search").submit(function(e) {
             });
         }
     });
-    
+
 });
 
 $(document).ready(function() {
@@ -121,22 +121,6 @@ $(document).ready(function() {
                 <input class="form-check-input" type="radio" name="media_type" id="typeMovie" value="movie" required>
                 <label class="form-check-label" for="typeMovie">
                     Movie
-                </label>
-            </div>
-            <br>
-            <div>
-                Rename?
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="rename" id="renameYes" value="yes" required>
-                <label class="form-check-label" for="renameYes">
-                    Yes
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="rename" id="renameNo" value="no" required>
-                <label class="form-check-label" for="renameNo">
-                    No
                 </label>
             </div>
             <br>

@@ -14,6 +14,7 @@ use phpseclib3\Crypt\PublicKeyLoader;
 class TorrentController extends Controller
 {
 	private $decoder;
+    private array $notes;
 
 	public function __construct(BitTorrent\Decoder $decoder) {
 		$this->decoder = $decoder;
@@ -118,8 +119,26 @@ class TorrentController extends Controller
                 " " . escapeshellarg($mediaFilePath);
             error_log($command);
 			$res = $ssh->exec($command);
+			$res = $ssh->exec("echo \"" . escapeshellarg($command) . "\" > ~/sitelogs/" . date("Y-m-d-H-i-s") . ".txt");
             error_log($res);
 		}
 		return redirect()->route('torrent.index');
 	}
+
+    public function getNotesArray() : array {
+        return $this->notes;
+    }
+
+    public function getNotes() : string {
+        $notes = "";
+        foreach ($this->notes as $note) {
+            $notes .= $note . PHP_EOL;
+        }
+        $notes = substr($notes, -1);
+        return $notes;
+    }
+
+    public function addNote(string $note) {
+        $this->notes[] = $note;
+    }
 }
