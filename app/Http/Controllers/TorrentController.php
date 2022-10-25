@@ -114,7 +114,7 @@ class TorrentController extends Controller
 			}
 			$command = "/home/oaks/linktv/rename.sh"
                 . " -l " . $fileLinkFolder
-                . " -n " . $mediaName
+                . " -n " . escapeshellarg($mediaName)
                 . (($mediaType == "TV" || $mediaType == "anime") ? " -s " . escapeshellarg($season) : '')
                 . (($mediaType == "movie") ? " -m" : '')
                 . " " . escapeshellarg($mediaFilePath);
