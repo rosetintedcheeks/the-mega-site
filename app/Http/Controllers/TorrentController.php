@@ -115,9 +115,9 @@ class TorrentController extends Controller
 			$command = "/home/oaks/linktv/rename.sh"
                 . " -l " . $fileLinkFolder
                 . " -n " . $mediaName
-                (($mediaType == "TV" || $mediaType == "anime") ? " -s " . escapeshellarg($season) : '') .
-                (($mediaType == "movie") ? " -m" : '') .
-                " " . escapeshellarg($mediaFilePath);
+                . (($mediaType == "TV" || $mediaType == "anime") ? " -s " . escapeshellarg($season) : '')
+                . (($mediaType == "movie") ? " -m" : '')
+                . " " . escapeshellarg($mediaFilePath);
             error_log($command);
 			$res = $ssh->exec($command);
 			$res = $ssh->exec("echo \"" . $command . "\" > ~/sitelogs/" . date("Y-m-d-H-i-s") . ".txt");
