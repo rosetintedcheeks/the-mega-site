@@ -112,12 +112,12 @@ class TorrentController extends Controller
 			else if($mediaType === "TV" || $mediaType === "movie") {
 				$mediaFilePath = '/home/oaks/private/download/' . $file;
 			}
-			$command = "/home/oaks/linktv/rename.sh" .
-                " -l " . $fileLinkFolder .
-                " -n " . $mediaName .
+			$command = "/home/oaks/linktv/rename.sh"
+                . " -l " . $fileLinkFolder
+                . " -n " . $mediaName
                 (($mediaType == "TV" || $mediaType == "anime") ? " -s " . escapeshellarg($season) : '') .
                 (($mediaType == "movie") ? " -m" : '') .
-                " " . $mediaFilePath;
+                " " . escapeshellarg($mediaFilePath);
             error_log($command);
 			$res = $ssh->exec($command);
 			$res = $ssh->exec("echo \"" . $command . "\" > ~/sitelogs/" . date("Y-m-d-H-i-s") . ".txt");
