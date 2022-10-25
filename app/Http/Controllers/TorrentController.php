@@ -113,14 +113,14 @@ class TorrentController extends Controller
 				$mediaFilePath = '/home/oaks/private/download/' . $file;
 			}
 			$command = "/home/oaks/linktv/rename.sh" .
-                " -l " . escapeshellarg($fileLinkFolder) .
-                " -n " . escapeshellarg($mediaName) .
-                (($mediaType == "TV") ? " -s " . escapeshellarg($season) : '') .
+                " -l " . $fileLinkFolder .
+                " -n " . $mediaName .
+                (($mediaType == "TV" || $mediaType == "anime") ? " -s " . escapeshellarg($season) : '') .
                 (($mediaType == "movie") ? " -m" : '') .
-                " " . escapeshellarg($mediaFilePath);
+                " " . $mediaFilePath;
             error_log($command);
 			$res = $ssh->exec($command);
-			$res = $ssh->exec("echo \"" . escapeshellarg($command) . "\" > ~/sitelogs/" . date("Y-m-d-H-i-s") . ".txt");
+			$res = $ssh->exec("echo \"" . $command . "\" > ~/sitelogs/" . date("Y-m-d-H-i-s") . ".txt");
             error_log($res);
 		}
 		return redirect()->route('torrent.index');
